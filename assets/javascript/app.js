@@ -4,31 +4,80 @@ $(document).ready(function() {
         //Questions will be asked randomly and the order the choices are will be random
     //int's for questions answered correctly and incorrectly
     //String array for remembering which questions were answered incorrectly
+var q = [
+    {
+        q: "What planet in our solar system has the longest day?",
+        o: ["Earth", "Saturn", "Mercury", "Venus"],
+        a: "Venus",
+    },
+    {
+        q: "How many moons are there in the entire solar system?",
+        o: [160, 100, 181, 200],
+        a: 181,
+    },
+    {
+        q: "Jupiter has the most moons with there being: ",
+        o: [60, 32, 67, 5],
+        a: 67,
+    },
+    {
+        q: "How far away is the Moon from Earth?",
+        o: ["238,900 Miles", "201,500 Miles", "250,720 Miles", "189,200 Miles"],
+        a: "238,900 Miles",
+    },
+    {
+        q: "What was the first planet that we laned a rover on?",
+        o: ["Venus", "Mars", "Mercury", "Saturn"],
+        a: "Venus"
+    },
+    {
+        q: "Who was the first man in space?",
+        o: ["Yuri Gagarin", "Alan Bartlett Shepard Jr.", "Neil Armstrong", "Buzz Aldrin"],
+        a: "Yuri Gagarin"
+    },
+];
+
+var alreadyAsked = [];
+
+console.log(q[0].q1);
 
 //Initially the page will only have the game title and a button for starting the game
 //$("#start").on("click", startPage());
 $("#start").on("click", function(){
-    $("div:hidden").show("fast");
+    $("button").remove();
+    startPage();
+
 }); 
     //After the start button is pressed make the rest of the page visible and ask the first question
 
 //Called after the start button is pressed and makes the question elements visible and hides start button
 function startPage(){
-    /*
-    $("#timer").css("visibility", "visible");
-    $("#question").css("visibility", "visible");
-    $("#options").css("visibiltiy", "visible");
-    $("#start").css("visibility", "hidden");
-    */
+    var timer = document.createElement("div");
+    timer.innerHTML = "Test";
+    timer.setAttribute("id", "timer");
+    
+    var question = document.createElement("div");
+    writeQuestion(question);
+    //question.innerHTML = "Test";
+    question.setAttribute("id", "question");
 
-    $("#time").show(100);
-    $("#question").show(100);
-    $("#options").show(100);
-    $("#start").hidden(100);
+    var options = document.createElement("div");
+    options.innerHTML = "Test";
+    options.setAttribute("id", "options");
+
+    $(".container").append(timer, question, options);
+    
 }
 
 //Function to write a question to the page and list all the choices in an ordered list
-
+function writeQuestion(question){
+    //Random Number to select what question will be asked
+    var qNum = Math.floor(Math.random() * 6);
+    //console.log(qNum);
+    alreadyAsked.push(qNum);
+    //Writing the random question to the question div
+    question.innerHTML = q[qNum].q;
+}
 //Set Timers
     //Timer 30 seconds for the time to choose an answer
     //Timer 5 seconds for after a answer is picked and displaying the image and fun facts and if they got it right or not
