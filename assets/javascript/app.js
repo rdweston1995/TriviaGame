@@ -39,7 +39,7 @@ var q = [
 
 var alreadyAsked = [];
 
-console.log(q[0].q1);
+console.log(q[1].q);
 
 //Initially the page will only have the game title and a button for starting the game
 //$("#start").on("click", startPage());
@@ -52,33 +52,57 @@ $("#start").on("click", function(){
 
 //Called after the start button is pressed and makes the question elements visible and hides start button
 function startPage(){
+    //Random Number to select what question will be asked
+    var qNum = Math.floor(Math.random() * 6);
+    
+    alreadyAsked.push(qNum);
+    
     var timer = document.createElement("div");
-    timer.innerHTML = "Test";
+    //timer.innerHTML = "Test";
+    setTimer(timer);
     timer.setAttribute("id", "timer");
+
     
     var question = document.createElement("div");
-    writeQuestion(question);
-    //question.innerHTML = "Test";
+    writeQuestion(question, qNum);
     question.setAttribute("id", "question");
 
-    var options = document.createElement("div");
-    options.innerHTML = "Test";
-    options.setAttribute("id", "options");
+    var choices = document.createElement("div");
+    //choices.innerHTML = "Test";
+    writeChoices(choices, qNum);
+    choices.setAttribute("id", "choices");
 
-    $(".container").append(timer, question, options);
+    $(".container").append(timer, question, choices);
     
 }
 
 //Function to write a question to the page and list all the choices in an ordered list
-function writeQuestion(question){
-    //Random Number to select what question will be asked
-    var qNum = Math.floor(Math.random() * 6);
+function writeQuestion(question, qNum){
     //console.log(qNum);
     alreadyAsked.push(qNum);
     //Writing the random question to the question div
     question.innerHTML = q[qNum].q;
 }
+
+function writeChoices(choices, qNum){
+    //Give them the same ID and set the values to what they say
+    var list = document.createElement("ol");
+    list.setAttribute("type", "A");
+    for (var i = 0; i < q[qNum].o.length; i++){
+        var listChoice = document.createElement("li");
+        listChoice.setAttribute("id", "listChoices");
+
+        listChoice.innerHTML = i + 1 + ". " + q[qNum].o[i];
+        list.append(listChoice);
+    }
+    choices.append(list);
+}
 //Set Timers
+function setTimer(timer){
+    thirty = setTimeout(1000 * 100);
+    
+    timer.innerHTML = thirty;
+}
     //Timer 30 seconds for the time to choose an answer
     //Timer 5 seconds for after a answer is picked and displaying the image and fun facts and if they got it right or not
 
