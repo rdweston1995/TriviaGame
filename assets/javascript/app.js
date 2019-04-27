@@ -38,41 +38,21 @@ var q = [
     },
 ];
 
-//var q = ["What planet in our solar system has the longest day?", "How many moons are there in the entire solar system?", 
-        //"Jupiter has the most moons with there being: ", "How far away is the Moon from Earth?", "What was the first planet that we landed a rover on?",
-        //"Who was the first man in space?"];
-//var o = []
-
-
-
 var time = 30;
 var thirty;
 var ten;
 var position = 0;
+var correct = 0, incorrect = 0;
 
-
-console.log(q[1].q);
-
+//console.log(q[1].q);
 
 //Initially the page will only have the game title and a button for starting the game
-//$("button").remove();
-//startPage();
-
 
 $("#start").on("click", function(){
     $("button").remove();
-    startPage();
-    
-    
+    startPage();   
 });
-
-
-
-// /var load = setInterval(,1000)
-
-//onClick();
     
-
 //Called after the start button is pressed and makes the question elements visible and hides start button
 function startPage(){
     if(position >= 6){
@@ -88,43 +68,31 @@ function startPage(){
 
         $(".container").append("<div class='question'></div>");
         writeQuestion(position);
-    
-        $(".container").append("<div class='choices' value='choices'></div")
-        writeChoices(position); 
 
-        
-        //$(".numberedChoice").on('click', onClick);
-        //$(".container").on()
-        //$(".container").ready(onClick);
+        $(".container").append("<div class='choices' value='choices'></div>")
+        writeChoices(position); 
     }
-    
-    
 }
 
 //Function to write a question to the page and list all the choices in an ordered list
 function writeQuestion( position){
     $(".question").text(q[position].q);
-    //$(".question").text(q[position]);
 }
 
 //Function to write the choices for the current question
 function writeChoices(position){
     //Give them the same ID and set the values to what they say  
     var list = $("<ol class='listChoices'></ol>");
-    //console.log(q[position].o[0]);
     //For loop to run through the objects options array to write them to the page
     for (var i = 0; i < q[position].o.length; i++){
-        
-        var Choice = $("<li></li>")
-        Choice.text(q[position].o[i]);
-        console.log(Choice.text);
+        var Choice = $("<li>" + q[position].o[i] + "</li>");
+
         list.append(Choice);   
     }   
 
     $(".choices").append(list);
     
     onClick();
-
 }
 //Timer function to display to the page and to restart the page when the timer gets to 0
 function countThirty(){
@@ -149,7 +117,6 @@ function countTen(){
     time--;
 }
     
-
 //On click functions for starting the game and resetting the game
     //Start button will make its self hidden and make all the other elements on the page visible
     //Resetting function will make its self hidden and reset all the variables and the page back to its original state
@@ -157,41 +124,47 @@ function countTen(){
 //On click function for selecting the answer
 function onClick() {    
     $("li").on('click', function(){
-        console.log($(this).text);
-        alert($(this).text);
+        var userGuess = $(this).text();
+
         clearInterval(thirty);
-        showAnswer();
+        showAnswer(userGuess);
     });
 }
 
-    //When a element in the ordered list of the choices is clicked on
-
 //Function for when the correct answer is selected or time runs out
-function showAnswer(){
+function showAnswer(userGuess){
     $(".container").empty();
-    time = 10;
+    time = 1;
 
     $(".container").append("<div class='timer'>10</div>");
     ten = setInterval(countTen, 1000);
-
-    var answer = document.createElement("div");
-    answer.setAttribute("id", "answer");
-    console.log(q[position].a);
-    answer.innerHTML = q[position].a;
-
-    $(".container").append(answer);
+    console.log(userGuess + " = " + q[position].a); 
+    if(userGuess === q[position].a){
+        $(".container").append($("<div class='answer'>Correct!</div>"));
+        correct++;
+        console.log("correct = " + correct);
+    }else{
+        $(".container").append($("<div class='answer'>Incorrect</div>"));
+        incorrect++;
+        console.log("incorrect = " + incorrect);
+    }
 }   
     //Display an image and maybe some fun facts about whatever the fuck
 
 //After all the questions have been asked display the amount the user got right and wrong
 function scoreScreen(){
-    $(".container").empty();
-    $(".container").text("test");
-
     //Show which questions that they got wrong
     //Button made visible to reset the game without a page reset
+    $(".container").empty();
+
+    $(".container").append($("<div class='score'></div>"));
+    $(".score").text("Correct = " + correct + "<br>" + "Incorrect = " + incorrect);
+
+    $(".container").append($("<button class='reset'>Reset</button>"))
+
+    $(".reset").on("click", function(){
+        position = 0, correct = 0, incorrect = 0;
+        startPage();
+    });
 }
-    
-
-
 });
