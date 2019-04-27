@@ -4,6 +4,7 @@ $(document).ready(function() {
         //Questions will be asked randomly and the order the choices are will be random
     //int's for questions answered correctly and incorrectly
     //String array for remembering which questions were answered incorrectly
+
 var q = [
     {
         q: "What planet in our solar system has the longest day?",
@@ -37,23 +38,40 @@ var q = [
     },
 ];
 
+//var q = ["What planet in our solar system has the longest day?", "How many moons are there in the entire solar system?", 
+        //"Jupiter has the most moons with there being: ", "How far away is the Moon from Earth?", "What was the first planet that we landed a rover on?",
+        //"Who was the first man in space?"];
+//var o = []
+
+
+
 var time = 30;
 var thirty;
 var ten;
 var position = 0;
 
+
 console.log(q[1].q);
 
+
 //Initially the page will only have the game title and a button for starting the game
-//$("#start").on("click", startPage());
+//$("button").remove();
+//startPage();
+
+
 $("#start").on("click", function(){
     $("button").remove();
     startPage();
     
-    //startPage(); WORKING
+    
+});
 
-}); 
-    //After the start button is pressed make the rest of the page visible and ask the first question
+
+
+// /var load = setInterval(,1000)
+
+//onClick();
+    
 
 //Called after the start button is pressed and makes the question elements visible and hides start button
 function startPage(){
@@ -65,48 +83,48 @@ function startPage(){
         //Thirty second itmer
         time = 30;
 
-        var timer = document.createElement("div");
-        timer.setAttribute("id", "timer");
+        $(".container").append("<div class='timer'>30</div>");
         thirty = setInterval(countThirty, 1000);
 
-        var question = document.createElement("div");
-        writeQuestion(question, position);
-        question.setAttribute("id", "question");
+        $(".container").append("<div class='question'></div>");
+        writeQuestion(position);
+    
+        $(".container").append("<div class='choices' value='choices'></div")
+        writeChoices(position); 
 
-        var choices = document.createElement("div");
-        writeChoices(choices, position);
-        choices.setAttribute("class", "choices");
-
-        //Adding the new divs to the container div
-        $(".container").append(timer, question, choices);
-        onClick();
         
+        //$(".numberedChoice").on('click', onClick);
+        //$(".container").on()
+        //$(".container").ready(onClick);
     }
     
-        
+    
 }
 
 //Function to write a question to the page and list all the choices in an ordered list
-function writeQuestion(question, position){
-    question.innerHTML = q[position].q;
+function writeQuestion( position){
+    $(".question").text(q[position].q);
+    //$(".question").text(q[position]);
 }
 
 //Function to write the choices for the current question
-function writeChoices(choices, position){
-    //Give them the same ID and set the values to what they say
-    var list = document.createElement("ol");
-    list.setAttribute("type", "A");
+function writeChoices(position){
+    //Give them the same ID and set the values to what they say  
+    var list = $("<ol class='listChoices'></ol>");
+    //console.log(q[position].o[0]);
     //For loop to run through the objects options array to write them to the page
     for (var i = 0; i < q[position].o.length; i++){
-        var listChoice = document.createElement("li");
-        listChoice.setAttribute("class", "listChoices");
-        $(".listChoices").attr("value", q[position].o[i]);
-        //listChoice.setAttribute("value", q[position].o[i]);
+        
+        var Choice = $("<li></li>")
+        Choice.text(q[position].o[i]);
+        console.log(Choice.text);
+        list.append(Choice);   
+    }   
 
-        listChoice.innerHTML = i + 1 + ". " + q[position].o[i];
-        list.append(listChoice);
-    }
-    choices.append(list);
+    $(".choices").append(list);
+    
+    onClick();
+
 }
 //Timer function to display to the page and to restart the page when the timer gets to 0
 function countThirty(){
@@ -114,10 +132,11 @@ function countThirty(){
         clearInterval(thirty);
         showAnswer();
     }
-    $("#timer").text(time);
-    time--;
+    $(".timer").text(time);
+    time--;   
 }
 
+//After user guesses run this timer for inbetween questions
 function countTen(){
     if(time === 0){
         //Incrementing the position
@@ -126,23 +145,25 @@ function countTen(){
         clearInterval(ten);
         startPage();
     }
-    $("#timer").text(time);
+    $(".timer").text(time);
     time--;
 }
-    //Timer 30 seconds for the time to choose an answer
-    //Timer 5 seconds for after a answer is picked and displaying the image and fun facts and if they got it right or not
+    
 
 //On click functions for starting the game and resetting the game
     //Start button will make its self hidden and make all the other elements on the page visible
     //Resetting function will make its self hidden and reset all the variables and the page back to its original state
 
 //On click function for selecting the answer
-function onClick(){
-    $(".listChoices").on("click", function(){
-        console.log($(this).val());
-        alert($(this).val());
+function onClick() {    
+    $("li").on('click', function(){
+        console.log($(this).text);
+        alert($(this).text);
+        clearInterval(thirty);
+        showAnswer();
     });
 }
+
     //When a element in the ordered list of the choices is clicked on
 
 //Function for when the correct answer is selected or time runs out
@@ -150,8 +171,7 @@ function showAnswer(){
     $(".container").empty();
     time = 10;
 
-    var timer = document.createElement("div");
-    timer.setAttribute("id", "timer");
+    $(".container").append("<div class='timer'>10</div>");
     ten = setInterval(countTen, 1000);
 
     var answer = document.createElement("div");
