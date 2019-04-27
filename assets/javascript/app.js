@@ -37,7 +37,10 @@ var q = [
     },
 ];
 
-var alreadyAsked = [];
+var time = 30;
+var thirty;
+var ten;
+var position = 0;
 
 console.log(q[1].q);
 
@@ -46,62 +49,85 @@ console.log(q[1].q);
 $("#start").on("click", function(){
     $("button").remove();
     startPage();
+    
+    //startPage(); WORKING
 
 }); 
     //After the start button is pressed make the rest of the page visible and ask the first question
 
 //Called after the start button is pressed and makes the question elements visible and hides start button
 function startPage(){
-    //Random Number to select what question will be asked
-    var qNum = Math.floor(Math.random() * 6);
-    
-    alreadyAsked.push(qNum);
-    
-    var timer = document.createElement("div");
-    //timer.innerHTML = "Test";
-    setTimer(timer);
-    timer.setAttribute("id", "timer");
+    if(position >= 6){
+        scoreScreen();
+    } else {
+        //Clearing the page
+        $(".container").empty();
+        //Thirty second itmer
+        time = 30;
 
-    
-    var question = document.createElement("div");
-    writeQuestion(question, qNum);
-    question.setAttribute("id", "question");
+        var timer = document.createElement("div");
+        timer.setAttribute("id", "timer");
+        thirty = setInterval(countThirty, 1000);
 
-    var choices = document.createElement("div");
-    //choices.innerHTML = "Test";
-    writeChoices(choices, qNum);
-    choices.setAttribute("id", "choices");
+        var question = document.createElement("div");
+        writeQuestion(question, position);
+        question.setAttribute("id", "question");
 
-    $(".container").append(timer, question, choices);
+        var choices = document.createElement("div");
+        writeChoices(choices, position);
+        choices.setAttribute("class", "choices");
+
+        //Adding the new divs to the container div
+        $(".container").append(timer, question, choices);
+        onClick();
+        
+    }
     
+        
 }
 
 //Function to write a question to the page and list all the choices in an ordered list
-function writeQuestion(question, qNum){
-    //console.log(qNum);
-    alreadyAsked.push(qNum);
-    //Writing the random question to the question div
-    question.innerHTML = q[qNum].q;
+function writeQuestion(question, position){
+    question.innerHTML = q[position].q;
 }
 
-function writeChoices(choices, qNum){
+//Function to write the choices for the current question
+function writeChoices(choices, position){
     //Give them the same ID and set the values to what they say
     var list = document.createElement("ol");
     list.setAttribute("type", "A");
-    for (var i = 0; i < q[qNum].o.length; i++){
+    //For loop to run through the objects options array to write them to the page
+    for (var i = 0; i < q[position].o.length; i++){
         var listChoice = document.createElement("li");
-        listChoice.setAttribute("id", "listChoices");
+        listChoice.setAttribute("class", "listChoices");
+        $(".listChoices").attr("value", q[position].o[i]);
+        //listChoice.setAttribute("value", q[position].o[i]);
 
-        listChoice.innerHTML = i + 1 + ". " + q[qNum].o[i];
+        listChoice.innerHTML = i + 1 + ". " + q[position].o[i];
         list.append(listChoice);
     }
     choices.append(list);
 }
-//Set Timers
-function setTimer(timer){
-    thirty = setTimeout(1000 * 100);
-    
-    timer.innerHTML = thirty;
+//Timer function to display to the page and to restart the page when the timer gets to 0
+function countThirty(){
+    if(time === 0){
+        clearInterval(thirty);
+        showAnswer();
+    }
+    $("#timer").text(time);
+    time--;
+}
+
+function countTen(){
+    if(time === 0){
+        //Incrementing the position
+        position++;
+
+        clearInterval(ten);
+        startPage();
+    }
+    $("#timer").text(time);
+    time--;
 }
     //Timer 30 seconds for the time to choose an answer
     //Timer 5 seconds for after a answer is picked and displaying the image and fun facts and if they got it right or not
@@ -111,13 +137,41 @@ function setTimer(timer){
     //Resetting function will make its self hidden and reset all the variables and the page back to its original state
 
 //On click function for selecting the answer
+function onClick(){
+    $(".listChoices").on("click", function(){
+        console.log($(this).val());
+        alert($(this).val());
+    });
+}
     //When a element in the ordered list of the choices is clicked on
 
-//Function for when the correct answer is selected
+//Function for when the correct answer is selected or time runs out
+function showAnswer(){
+    $(".container").empty();
+    time = 10;
+
+    var timer = document.createElement("div");
+    timer.setAttribute("id", "timer");
+    ten = setInterval(countTen, 1000);
+
+    var answer = document.createElement("div");
+    answer.setAttribute("id", "answer");
+    console.log(q[position].a);
+    answer.innerHTML = q[position].a;
+
+    $(".container").append(answer);
+}   
     //Display an image and maybe some fun facts about whatever the fuck
 
 //After all the questions have been asked display the amount the user got right and wrong
+function scoreScreen(){
+    $(".container").empty();
+    $(".container").text("test");
+
     //Show which questions that they got wrong
-//Button made visible to reset the game without a page reset
+    //Button made visible to reset the game without a page reset
+}
+    
+
 
 });
