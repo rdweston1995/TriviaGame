@@ -1,10 +1,5 @@
 $(document).ready(function() {
-//Variables
-    //Objects for the questions and the right answers
-        //Questions will be asked randomly and the order the choices are will be random
-    //int's for questions answered correctly and incorrectly
-    //String array for remembering which questions were answered incorrectly
-
+//Objects for the questions, choices, and right answers
 var q = [
     {
         q: "What planet in our solar system has the longest day?",
@@ -41,10 +36,10 @@ var q = [
 var time = 30;
 var thirty;
 var ten;
+//Position in the array of objects to be incremented after a question has been asked
 var position = 0;
+//int's for questions answered correctly and incorrectly
 var correct = 0, incorrect = 0;
-
-//console.log(q[1].q);
 
 //Initially the page will only have the game title and a button for starting the game
 
@@ -117,10 +112,6 @@ function countTen(){
     time--;
 }
     
-//On click functions for starting the game and resetting the game
-    //Start button will make its self hidden and make all the other elements on the page visible
-    //Resetting function will make its self hidden and reset all the variables and the page back to its original state
-
 //On click function for selecting the answer
 function onClick() {    
     $("li").on('click', function(){
@@ -138,7 +129,7 @@ function showAnswer(userGuess){
 
     $(".container").append("<div class='timer'>10</div>");
     ten = setInterval(countTen, 1000);
-    console.log(userGuess + " = " + q[position].a); 
+    //console.log(userGuess + " = " + q[position].a); 
     if(userGuess === q[position].a){
         $(".container").append($("<div class='answer'>Correct!</div>"));
         correct++;
@@ -160,7 +151,7 @@ function scoreScreen(){
     $(".container").append($("<div class='score'></div>"));
     $(".score").text("Correct = " + correct + "<br>" + "Incorrect = " + incorrect);
 
-    $(".container").append($("<button class='reset'>Reset</button>"))
+    $(".container").append($("<button class='reset btn btn-light'>Reset</button>"))
 
     $(".reset").on("click", function(){
         position = 0, correct = 0, incorrect = 0;
