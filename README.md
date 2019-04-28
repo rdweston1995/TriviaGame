@@ -1,1 +1,7 @@
 # TriviaGame
+
+This game will challenge the user's knowledge on the history of human space exploration. Through the questions they will be asked about the early years of our reach into space and the recent accomplishments. The user will be able to select any of the four options within the 30 second time frame. After a option is selected the screen is then display if the guess was correct or not and display some information regarding the question and an image. After 10 seconds has passed the game will then go to the next question. If no option is selected and the 30 second time frame is reached then the game will go to the screen with the image and fact and register the question as incorrect. After the seven questions have been asked the screen will go to the score screen that will show how many were answered correctly and incorrectly and offer the option of restarting the game.
+
+This project helped further my understanding with jQuery creating new divs in the javascript file instead of having them already created in the html file. Adding onclick functions to elements that are created after the page has already loaded and has executed code. Using objects to hold the information for the questions, options, answers, facts, and images and adding those to the page using a for loop thats called each time a new question is being asked. 
+
+Could always add more questions to be asked. Have music play in the background while the game is being played. Displaying what questions were answered incorrectly at the end of the game.

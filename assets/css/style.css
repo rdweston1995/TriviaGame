@@ -1,6 +1,68 @@
+body{
+    background-image: url("../Images/spaceBackground2.jpg");
+    background-size: 100% auto;
 
+    font-family: 'Noto Sans', sans-serif;
+}
 
-#timer, #choices, #gameTitle{
-    text-align:center;
+#gameTitle{
+    text-align: center;
+    font-size: 75px;
+}
+
+.jumbotron{
+    padding: 15px;
+} 
+
+.question{
+    font-size: 50px;
+    padding-left: 25px;
+    margin-bottom: 15px;
+}
+
+.choices, .score{
+    font-size: 40px;
+    border-width: 3px;
+}
+
+.timer{
+    font-size: 40px;
+    text-align: center;
+}
+
+/*.timer, .question, .jumbotron, #start, .answer{
+    background-color: #ffffff;
+}*/
+.container, .jumbotron, #start{
+    background-color: #ffffff;
+}
+
+.container{
+    border-radius: 5px;
+}
+
+.answer{
+    font-size: 60px;
+}
+
+.fact{
+    font-size: 45px;
+}
+
+img{
+    margin: 15px;
+}
+
+.reset{
+    margin: 15px;
+}
+
+#start{
+    position: relative;
+    left: 40%;
+    width: 250px;
+    
+    font-size: 35px;
+    font-weight: bold;
 }
 
