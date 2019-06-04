@@ -31,7 +31,7 @@ var q = [
         src: "assets/Images/moon.jpg"
     },
     {
-        q: "What was the first planet that we laned a probe on?",
+        q: "What was the first planet that we landed a probe on?",
         o: ["Mars", "Venus", "Mercury", "Saturn"],
         a: "Venus",
         i: "The USSR's Venera 3 impacted on the surface of Venus on March 1st, 1966. It wasn't until the Venera 7 probe in 1970 that they landed on the surface " 
